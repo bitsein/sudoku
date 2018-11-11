@@ -35,7 +35,7 @@ void print_sudoku(sudoku s){ //sudokuを標準出力に表示
     }
 }
 
-int rule_check(sudoku s, int i, int j, int k){ //行方向のチェック
+int rule_check(sudoku s, int i, int j, int k){
     int l, m, a, b;
     for(l=0; l<9; l++){
         if(k == s[i][l]) return FAILURE;
