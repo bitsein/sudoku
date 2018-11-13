@@ -27,6 +27,7 @@ void free_sudoku(sudoku s){ //sudokuのメモリ開放
 
 void print_sudoku(sudoku s){ //sudokuを標準出力に表示
     int i, j;
+    printf("\n");
     for(i=0; i<9; i++){
         for(j=0; j<9; j++){
             printf("%d ",s[i][j]);
@@ -84,31 +85,20 @@ void solver(sudoku s){ //再帰的に使う
 }
 
 void check_input(sudoku s, int i, int j, int k){
-    switch(k){
-        case 0:
-            s[i][j] = k;
-            list[blank_num] = i * 9 + j;
-            blank_num++;
-            break;
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
-            if(rule_check(s, i, j, k) == FAILURE){
-                printf("RULE_VIOLATION\n");
-                free_sudoku(s); exit(1);
-            }
-            s[i][j] = k;
-            break;
-        default:
-            printf("INPUT_0_to_9\n");
-            free_sudoku(s); exit(1);
+    if(k == 0){
+        s[i][j] = k;
+        list[blank_num] = i * 9 + j;
+        blank_num++;
+        return;
     }
+    if(1 <= k <= 9){
+        if(rule_check(s, i, j, k) == FAILURE){
+            printf("RULE_VIOLATION\n");
+            free_sudoku(s); exit(1);
+        }
+        s[i][j] = k;
+        return;
+    }        
 }
 
 int main(){
@@ -123,7 +113,7 @@ int main(){
         }
     }
     if(blank_num == 0){
-        printf("ALREADY_CLEAR");
+        printf("ALREADY_CLEAR\n");
         free_sudoku(s); exit(1);
     }
     solver(s);
